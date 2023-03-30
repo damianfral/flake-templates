@@ -1,0 +1,13 @@
+name: haskell-template
+on: push
+#
+jobs:
+  haskell-template:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: install nix
+        uses: cachix/install-nix-action@v18
+      - run: nix build ".?dir=haskell"
+      - run: nix build ".?dir=haskell#devShells.x86_64-linux.default"
