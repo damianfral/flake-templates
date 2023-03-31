@@ -1,4 +1,4 @@
-name: haskell-template
+name: build
 on: push
 #
 jobs:
