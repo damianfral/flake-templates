@@ -1,0 +1,46 @@
+---
+name: hello
+version: 1.0.0.0
+
+license: MIT
+license-file: LICENSE
+
+dependencies:
+  - base
+  - bytestring
+  - optparse-applicative
+  - optparse-generic
+  - relude
+  - text
+  - genvalidity
+  - genvalidity-text
+  - sydtest
+
+library:
+  source-dirs: ./src/
+
+ghc-options:
+  - -Wall
+
+executables:
+  hello:
+    main: Main.hs
+    source-dirs: ./src/
+    ghc-options:
+      - -rtsopts
+      - -threaded
+      - -with-rtsopts=-N
+
+tests:
+  hello-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+      - -rtsopts
+      - -threaded
+      - -with-rtsopts=-N
+    dependencies:
+      - genvalidity-sydtest
+      - sydtest
+      - sydtest-discover
+      - hello
