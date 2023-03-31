@@ -24,5 +24,6 @@ cabal.project.local~
 .ghc.environment.*
 
 # Nix
-./result
+*result
 .direnv
+.pre-commit-config.yaml
