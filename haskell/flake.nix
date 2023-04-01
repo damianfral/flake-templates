@@ -79,10 +79,13 @@
       packages.default = packages.hello;
 
       apps.hello = flake-utils.lib.mkApp {
-        drv = pkgs.haskell.lib.justStaticExecutables packages.hello;
+        drv = pkgs.haskell.lib.justStaticExecutables (
+          packages.hello.overrideAttrs (oldAttrs: {
+            configureFlags = oldAttrs.configureFlags ++ [ "--ghc-option=-O2" ];
+          })
+        );
       };
       apps.default = apps.hello;
-
 
       devShells.default = pkgs.haskellPackages.shellFor {
         packages = p: [ packages.hello ];
