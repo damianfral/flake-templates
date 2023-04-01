@@ -41,13 +41,11 @@
             ];
           };
 
-        templates = {
-          haskell = {
-            path = ./haskell;
-            description = "Template for a haskell CLI application";
-          };
-
+        templates.haskell = {
+          path = ./haskell;
+          description = "Template for a haskell CLI application";
         };
+
       }
     );
 }

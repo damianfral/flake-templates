@@ -76,12 +76,13 @@
     in
     rec {
       packages.hello = pkgs.haskellPackages.hello;
+      packages.default = packages.hello;
 
       apps.hello = flake-utils.lib.mkApp {
         drv = pkgs.haskell.lib.justStaticExecutables packages.hello;
       };
+      apps.default = apps.hello;
 
-      defaultPackage = packages.hello;
 
       devShells.default = pkgs.haskellPackages.shellFor {
         packages = p: [ packages.hello ];
