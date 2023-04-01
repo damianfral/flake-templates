@@ -21,42 +21,34 @@
     let
       pkgsFor = system: import nixpkgs {
         inherit system;
-        overlays = [
-          self.overlays.default
-          nix-filter.overlays.default
-        ];
+        overlays = [ self.overlays.default ];
       };
+      filteredSrc =
+        nix-filter.lib {
+          root = ./.;
+          include = [
+            "src/"
+            "test/"
+            "package.yaml"
+            "LICENSE"
+          ];
+        };
     in
     {
-      overlays.default = final: prev:
-        let
-          filteredSrc =
-            final.nix-filter {
-              root = ./.;
-              include = [
-                "src/"
-                "test/"
-                "package.yaml"
-                "LICENSE"
-              ];
-            };
-        in
-        with final.haskell.lib;
-        {
-          haskellPackages = prev.haskellPackages.override (old: {
-            overrides = final.lib.composeExtensions
-              (old.overrides or (_: _: { }))
-              (self: super: {
-                sydtest = unmarkBroken (dontCheck super.sydtest);
-                hello = self.generateOptparseApplicativeCompletions
-                  [ "hello" ]
-                  (self.callCabal2nix "hello" filteredSrc { });
-              }
-              );
-          });
-        }
-      ;
-    } //
+      overlays.default = final: prev: with final.haskell.lib; {
+        haskellPackages = prev.haskellPackages.override (old: {
+          overrides = final.lib.composeExtensions
+            (old.overrides or (_: _: { }))
+            (self: super: {
+              sydtest = unmarkBroken (dontCheck super.sydtest);
+              hello = self.generateOptparseApplicativeCompletions
+                [ "hello" ]
+                (self.callCabal2nix "hello" filteredSrc { });
+            });
+        });
+      };
+    }
+    //
     flake-utils.lib.eachDefaultSystem (system:
     let
       pkgs = pkgsFor system;
