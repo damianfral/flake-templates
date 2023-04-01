@@ -1,6 +1,11 @@
-This flake contains a Nix package and a development shell for a sample Haskell CLI application called `hello`.
+# Nix flake for a Haskell CLI application
 
-The Haskell package is wrapped with `generateOptparseApplicativeCompletions`, which adds shell completion scripts. These scripts will be automatically picked up if the resulting derivation is installed.
+This flake contains a Nix package and a development shell for a sample Haskell
+CLI application called `hello`.
+
+The Haskell package is wrapped with `generateOptparseApplicativeCompletions`,
+which adds shell completion scripts. These scripts will be automatically picked
+up if the resulting derivation is installed.
 
 The development shell provides the following tools for Haskell development:
 
