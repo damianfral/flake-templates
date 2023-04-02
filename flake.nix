@@ -13,39 +13,40 @@
   outputs = { self, nixpkgs, flake-utils, pre-commit-hooks }:
 
     let pkgsFor = system: import nixpkgs { inherit system; }; in
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = pkgsFor system;
-        precommitCheck = pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            actionlint.enable = true;
-            markdownlint.enable = true;
-            nil.enable = true;
-            nixpkgs-fmt.enable = true;
-            statix.enable = true;
-          };
-        };
-
-      in
-      {
-        devShells.default = pkgs.mkShell
-          {
-            inherit (precommitCheck) shellHook;
-
-            buildInputs = with pkgs; [
-              actionlint
-              nil
-              nixpkgs-fmt
-              statix
-            ];
+    flake-utils.lib.eachDefaultSystem
+      (system:
+        let
+          pkgs = pkgsFor system;
+          precommitCheck = pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+            hooks = {
+              actionlint.enable = true;
+              markdownlint.enable = true;
+              nil.enable = true;
+              nixpkgs-fmt.enable = true;
+              statix.enable = true;
+            };
           };
 
-        templates.haskell = {
-          path = ./haskell;
-          description = "Template for a haskell CLI application";
-        };
+        in
+        {
+          devShells.default = pkgs.mkShell
+            {
+              inherit (precommitCheck) shellHook;
+              buildInputs = with pkgs; [
+                actionlint
+                nil
+                nixpkgs-fmt
+                statix
+              ];
+            };
+        }
+      ) // {
 
-      }
-    );
+      templates.haskell = {
+        path = ./haskell;
+        description = "Template for a haskell CLI application";
+      };
+
+    };
 }
