@@ -5,6 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
     nix-filter.url = "github:numtide/nix-filter";
+    dekking.url = "github:NorfairKing/dekking";
+    safe-coloured-text.url = "github:NorfairKing/safe-coloured-text";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -14,6 +16,8 @@
     , nixpkgs
     , flake-utils
     , nix-filter
+    , dekking
+    , safe-coloured-text
     , pre-commit-hooks
     , ...
     }:
@@ -21,7 +25,10 @@
     let
       pkgsFor = system: import nixpkgs {
         inherit system;
-        overlays = [ self.overlays.default ];
+        overlays = [
+          self.overlays.default
+          safe-coloured-text.overlays.${system}
+        ];
       };
       filteredSrc =
         nix-filter.lib {
@@ -40,6 +47,7 @@
           overrides = final.lib.composeExtensions
             (old.overrides or (_: _: { }))
             (self: super: {
+              autodocodec-yaml = unmarkBroken (dontCheck super.autodocodec-yaml);
               sydtest = unmarkBroken (dontCheck super.sydtest);
               hello = self.generateOptparseApplicativeCompletions
                 [ "hello" ]
@@ -68,6 +76,10 @@
     in
     rec {
       packages.hello = pkgs.haskellPackages.hello;
+      packages.hello-coverage-report = dekking.packages.${system}.default.makeCoverageReport {
+        name = "hello-coverage-report";
+        packages = [ "hello" ];
+      };
       packages.default = packages.hello;
 
       apps.hello = flake-utils.lib.mkApp {
