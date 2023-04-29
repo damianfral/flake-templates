@@ -94,6 +94,8 @@
         ];
         inherit (precommitCheck) shellHook;
       };
+
+      checks = { pre-commit-check = precommitCheck; };
     }
     );
   nixConfig = {

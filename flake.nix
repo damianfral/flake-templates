@@ -40,6 +40,7 @@
                 statix
               ];
             };
+          checks = { pre-commit-check = precommitCheck; };
         }
       ) // {
 
