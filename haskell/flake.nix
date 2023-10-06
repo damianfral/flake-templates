@@ -60,7 +60,7 @@
           hpack.enable = true;
           markdownlint.enable = true;
           nil.enable = true;
-          nixpkgs-fmt.enable = true;
+          alejandra.enable = true;
           ormolu.enable = true;
           statix.enable = true;
         };
@@ -88,7 +88,7 @@
           haskell-language-server
           hlint
           nil
-          nixpkgs-fmt
+          alejandra
           ormolu
           statix
         ];
