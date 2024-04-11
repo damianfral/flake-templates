@@ -7,6 +7,7 @@
     nix-filter.url = "github:numtide/nix-filter";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
+    feedback.url = "github:NorfairKing/feedback";
   };
 
   outputs = {
@@ -15,6 +16,7 @@
     flake-utils,
     nix-filter,
     pre-commit-hooks,
+    feedback,
     ...
   }: let
     pkgsFor = system:
@@ -84,6 +86,7 @@
             ghcid
             haskell-language-server
             hlint
+            feedback.packages.${system}.default
             nil
             alejandra
             ormolu
