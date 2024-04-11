@@ -33,21 +33,24 @@
     };
   in
     {
-      overlays.default = final: prev:
-        with final.haskell.lib; {
-          haskellPackages = prev.haskellPackages.override (old: {
-            overrides =
-              final.lib.composeExtensions
-              (old.overrides or (_: _: {}))
-              (self: super: {
-                sydtest = unmarkBroken (dontCheck super.sydtest);
-                hello =
-                  self.generateOptparseApplicativeCompletions
-                  ["hello"]
-                  (self.callCabal2nix "hello" filteredSrc {});
-              });
-          });
-        };
+      overlays.default = final: prev: {
+        hello = final.haskell.lib.justStaticExecutables (
+          final.baskellPackages.hello.overrideAttrs (oldAttrs: {
+            configureFlags = oldAttrs.configureFlags ++ ["--ghc-option=-O2"];
+          })
+        );
+        haskellPackages = prev.haskellPackages.override (old: {
+          overrides =
+            final.lib.composeExtensions
+            (old.overrides or (_: _: {}))
+            (self: super: {
+              hello =
+                self.generateOptparseApplicativeCompletions
+                ["hello"]
+                (self.callCabal2nix "hello" filteredSrc {});
+            });
+        });
+      };
     }
     // flake-utils.lib.eachDefaultSystem (
       system: let
@@ -69,13 +72,7 @@
         packages.hello = pkgs.haskellPackages.hello;
         packages.default = packages.hello;
 
-        apps.hello = flake-utils.lib.mkApp {
-          drv = pkgs.haskell.lib.justStaticExecutables (
-            packages.hello.overrideAttrs (oldAttrs: {
-              configureFlags = oldAttrs.configureFlags ++ ["--ghc-option=-O2"];
-            })
-          );
-        };
+        apps.hello = flake-utils.lib.mkApp {drv = pkgs.hello;};
         apps.default = apps.hello;
 
         devShells.default = pkgs.haskellPackages.shellFor {
