@@ -61,11 +61,11 @@
           src = ./.;
           hooks = {
             actionlint.enable = true;
+            alejandra.enable = true;
             hlint.enable = true;
             hpack.enable = true;
             markdownlint.enable = true;
             nil.enable = true;
-            alejandra.enable = true;
             ormolu.enable = true;
             statix.enable = true;
           };
@@ -82,13 +82,13 @@
           buildInputs = with pkgs;
           with pkgs.haskellPackages; [
             actionlint
+            alejandra
             cabal-install
             ghcid
             haskell-language-server
             hlint
             feedback.packages.${system}.default
             nil
-            alejandra
             ormolu
             statix
           ];

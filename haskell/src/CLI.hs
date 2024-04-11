@@ -76,8 +76,8 @@ runCLIOptions Options {..} = putStrLn message >> exitSuccess
 runCLI :: IO ()
 runCLI = do
   options <-
-    unwrapRecord $
-      Relude.unwords
+    unwrapRecord
+      $ Relude.unwords
         [ "hello",
           "v" <> pack (showVersion version),
           "- a simple haskell application"
