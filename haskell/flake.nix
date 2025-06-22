@@ -37,7 +37,7 @@
     {
       overlays.default = final: prev: {
         hello = final.haskell.lib.justStaticExecutables (
-          final.baskellPackages.hello.overrideAttrs (oldAttrs: {
+          final.haskellPackages.hello.overrideAttrs (oldAttrs: {
             configureFlags = oldAttrs.configureFlags ++ ["--ghc-option=-O2"];
           })
         );
