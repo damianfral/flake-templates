@@ -2,7 +2,7 @@
   description = "A collection of flake templates";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/25.05";
     flake-utils.url = "github:numtide/flake-utils";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
@@ -32,19 +32,14 @@
       in {
         devShells.default = pkgs.mkShell {
           inherit (precommitCheck) shellHook;
-          buildInputs = with pkgs; [
-            actionlint
-            alejandra
-            nil
-            statix
-          ];
+          buildInputs = with pkgs; [actionlint alejandra nil statix];
         };
         checks = {pre-commit-check = precommitCheck;};
       }
     )
     // {
-      templates.haskell = {
-        path = ./haskell;
+      templates.haskell-cli = {
+        path = ./haskell-cli;
         description = "Template for a haskell CLI application";
       };
 
