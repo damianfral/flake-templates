@@ -1,0 +1,76 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.36.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           hello
+version:        1.0.0.0
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+
+library
+  exposed-modules:
+      CLI
+      Main
+  other-modules:
+      Paths_hello
+  hs-source-dirs:
+      ./src/
+  ghc-options: -fwrite-ide-info -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates -Wpartial-fields -Widentities -Wredundant-constraints -Wcpp-undef -Wunused-packages
+  build-depends:
+      base
+    , bytestring
+    , genvalidity
+    , genvalidity-text
+    , optparse-applicative
+    , optparse-generic
+    , relude
+    , sydtest
+    , text
+  default-language: Haskell2010
+
+executable hello
+  main-is: Main.hs
+  other-modules:
+      CLI
+      Paths_hello
+  hs-source-dirs:
+      ./src/
+  ghc-options: -fwrite-ide-info -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates -Wpartial-fields -Widentities -Wredundant-constraints -Wcpp-undef -Wunused-packages -rtsopts -threaded -with-rtsopts=-N
+  build-depends:
+      base
+    , bytestring
+    , genvalidity
+    , genvalidity-text
+    , optparse-applicative
+    , optparse-generic
+    , relude
+    , sydtest
+    , text
+  default-language: Haskell2010
+
+test-suite hello-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      CLISpec
+      Paths_hello
+  hs-source-dirs:
+      test
+  ghc-options: -fwrite-ide-info -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates -Wpartial-fields -Widentities -Wredundant-constraints -Wcpp-undef -Wunused-packages -rtsopts -threaded -with-rtsopts=-N
+  build-depends:
+      base
+    , bytestring
+    , genvalidity
+    , genvalidity-sydtest
+    , genvalidity-text
+    , hello
+    , optparse-applicative
+    , optparse-generic
+    , relude
+    , sydtest
+    , sydtest-discover
+    , text
+  default-language: Haskell2010
