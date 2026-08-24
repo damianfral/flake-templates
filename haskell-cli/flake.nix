@@ -1,5 +1,5 @@
 {
-  description = "TBD";
+  description = "Haskell CLI flake template";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
@@ -38,7 +38,7 @@
       overlays.default = final: prev: {
         hello = final.haskell.lib.justStaticExecutables (
           final.haskellPackages.hello.overrideAttrs (oldAttrs: {
-            configureFlags = oldAttrs.configureFlags ++ ["--ghc-option=-O2"];
+            configureFlags = oldAttrs.configureFlags ++ ["--ghc-options=-O2"];
           })
         );
         haskellPackages = prev.haskellPackages.override (old: {
@@ -75,14 +75,14 @@
           };
         };
       in rec {
-        packages.hello = pkgs.haskellPackages.hello;
+        packages.hello = pkgs.hello;
         packages.default = packages.hello;
 
         apps.hello = flake-utils.lib.mkApp {drv = pkgs.hello;};
         apps.default = apps.hello;
 
         devShells.default = pkgs.haskellPackages.shellFor {
-          packages = p: [packages.hello];
+          packages = p: [p.hello];
           buildInputs = with pkgs;
           with pkgs.haskellPackages; [
             actionlint
@@ -103,7 +103,15 @@
       }
     );
   nixConfig = {
-    extra-substituters = "https://opensource.cachix.org";
-    extra-trusted-public-keys = "opensource.cachix.org-1:6t9YnrHI+t4lUilDKP2sNvmFA9LCKdShfrtwPqj2vKc=";
+    extra-substituters = [
+      "https://opensource.cachix.org"
+      "https://haskell-language-server.cachix.org"
+      "https://feedback.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "opensource.cachix.org-1:6t9YnrHI+t4lUilDKP2sNvmFA9LCKdShfrtwPqj2vKc="
+      "haskell-language-server.cachix.org-1:juFfHrwkOxqIOZShtC4YC1uT1bBcq2RSvC7OMKx0Nz8="
+      "feedback.cachix.org-1:8PNDEJ4GTCbsFUwxVWE/ulyoBMDqqL23JA44yB0j1jI="
+    ];
   };
 }
