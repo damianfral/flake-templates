@@ -7,7 +7,7 @@ To use a template, run the following command replacing `haskell` with the
 desired template name:
 
 ```shell
-nix flake init -t github:damianfral/flake-templates#haskell
+nix flake init -t github:damianfral/flake-templates#haskell-cli
 ```
 
 ## Templates
