@@ -62,11 +62,15 @@
           hooks = {
             actionlint.enable = true;
             alejandra.enable = true;
+            beautysh.enable = true;
+            check-merge-conflicts.enable = true;
             hlint.enable = true;
             hpack.enable = true;
             markdownlint.enable = true;
             nil.enable = true;
             ormolu.enable = true;
+            ripsecrets.enable = true;
+            shellcheck.enable = true;
             statix.enable = true;
           };
         };

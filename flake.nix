@@ -23,9 +23,10 @@
           src = ./.;
           hooks = {
             actionlint.enable = true;
+            alejandra.enable = true;
             markdownlint.enable = true;
             nil.enable = true;
-            alejandra.enable = true;
+            ripsecrets.enable = true;
             statix.enable = true;
           };
         };
