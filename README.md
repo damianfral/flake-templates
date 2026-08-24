@@ -12,5 +12,5 @@ nix flake init -t github:damianfral/flake-templates#haskell
 
 ## Templates
 
-- [haskell](./haskell/README.md)
+- [haskell](./haskell-cli/README.md)
 - purescript (TBD)
